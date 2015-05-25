@@ -1,6 +1,7 @@
 class Board
   attr_reader :width, :height
   attr_reader :grid
+  @win
 
   def initialize
     @width = 7
@@ -102,6 +103,28 @@ class Board
       end
     end
     set_cell(column, 5, type)
+    return true
   end
 
+  def take_turn (player, type)
+    col = -1
+    until col.between?(0,6)
+      puts "Player #{player} turn : Please input a column"
+      col = gets.chomp.to_i
+    end
+    add_piece(col, type)
+
+    if check_win
+      @win = true
+      puts "Player #{player} win"
+    end
+  end
+
+  def play
+    until @win
+       take_turn(1,"x")
+       return if @win
+       take_turn(2,"o")
+     end
+  end
 end
